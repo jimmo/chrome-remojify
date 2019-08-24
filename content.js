@@ -32,10 +32,18 @@ function fixEmoji() {
     const hex = url[url.length - 1].split('.')[0];
     replaceCodePointWithEmojiSpan(elem.parentNode, hex);
   }
-  // Slack
+  // Slack (old)
   for (const elem of document.querySelectorAll('span.emoji-outer')) {
     const hex = elem.dataset['codepoints'].split('-')[0];
     replaceCodePointWithEmojiSpan(elem, hex);
+  }
+  // Slack (new)
+  for (const elem of document.querySelectorAll('span.c-emoji')) {
+    const img = elem.querySelector('img');
+    if (img && img.src && img.src.includes('google')) {
+      const hex = img.src.split('/').pop().split('@');
+      replaceCodePointWithEmojiSpan(elem, hex);
+    }
   }
 };
 
